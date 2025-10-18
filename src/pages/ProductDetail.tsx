@@ -19,7 +19,11 @@ export default function ProductDetail() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`${baseUrl}/api/products/${productId}`);
+        const { data } = await axios.get(`${baseUrl}/api/products/${productId}`, {
+          headers: {
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
         if (data.error) throw new Error(data.error);
         setProduct(data.product || null);
         setMemberships(data.memberships || []);
