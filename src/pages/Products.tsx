@@ -15,7 +15,11 @@ export default function Products() {
   const baseUrl = import.meta.env.VITE_BACKEND_URL;
   const getProducts = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/api/products`);
+      const res = await axios.get(`${baseUrl}/api/products`, {
+          headers: {
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
       const data = res.data
       if (data.error) throw new Error(data.error);
       setProducts(data.products || []);
