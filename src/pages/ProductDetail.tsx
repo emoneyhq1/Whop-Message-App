@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import axios from 'axios';
 
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 type Product = { id: string; title?: string; visibility?: string; activeUsers?: number };
 type Membership = { id: string; user?: string; email?: string };
 
@@ -18,7 +19,7 @@ export default function ProductDetail() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`/api/products/${productId}`);
+        const { data } = await axios.get(`${baseUrl}/api/products/${productId}`);
         if (data.error) throw new Error(data.error);
         setProduct(data.product || null);
         setMemberships(data.memberships || []);
@@ -77,7 +78,7 @@ export default function ProductDetail() {
                   try {
                     setSending(true);
                     toast.loading('Sending message...');
-                    const { data } = await axios.post(`/api/products/${productId}/message`, { message: trimmed });
+                    const { data } = await axios.post(`${baseUrl}/api/products/${productId}/message`, { message: trimmed });
                     if (data.error) throw new Error(data.error);
                     const { successCount = 0, errorCount = 0 } = data;
                     setResult(`Sent to ${successCount} member(s), ${errorCount} failed`);
@@ -134,5 +135,8 @@ export default function ProductDetail() {
     </div>
   );
 }
+
+
+
 
 
